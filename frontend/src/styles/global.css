@@ -35,3 +35,59 @@ body { margin: 0; background: #f6f8fb; color: #1f2937; }
 .error-text { color: #b42318; }
 .status-legend { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 10px; font-size: 12px; color: var(--muted); }
 .legend-item { background: #eef2f7; border-radius: 999px; padding: 2px 10px; }
+
+/* 分页 */
+.pagination { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 13px; }
+.pagination .btn[disabled] { opacity: .45; cursor: not-allowed; }
+.pagination .page-current { background: var(--brand); color: #fff; border-color: var(--brand); }
+.page-remain { color: var(--muted); }
+
+/* 残缺/推定标记 */
+.tag { display: inline-block; border-radius: 4px; padding: 0 6px; font-size: 11px; line-height: 18px; margin-left: 4px; vertical-align: middle; }
+.tag-missing { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+.tag-inferred { background: #e0f2fe; color: #075985; border: 1px solid #7dd3fc; }
+.tag-backfill { background: #f3e8ff; color: #6b21a8; border: 1px solid #d8b4fe; }
+.cell-missing { color: #b45309; }
+
+/* 详情抽屉 */
+.drawer-mask { position: fixed; inset: 0; background: rgba(15, 23, 42, .35); z-index: 40; }
+.drawer { position: fixed; top: 0; right: 0; width: 520px; max-width: 92vw; height: 100%; background: #fff; z-index: 41;
+  box-shadow: -6px 0 18px rgba(15, 23, 42, .18); padding: 18px 20px; overflow-y: auto; }
+.drawer h3 { margin: 0 0 4px; }
+.drawer .close-row { display: flex; justify-content: flex-end; }
+.kv-list { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.kv-list th, .kv-list td { border: 1px solid var(--border); padding: 7px 10px; font-size: 13px; text-align: left; vertical-align: top; }
+.kv-list th { width: 130px; background: #f8fafc; color: var(--muted); font-weight: normal; }
+.kv-block { margin-top: 14px; }
+.kv-block h4 { margin: 0 0 6px; font-size: 13px; color: #334155; }
+.archive-box { background: #f8fafc; border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px;
+  font-size: 12px; white-space: pre-wrap; word-break: break-all; max-height: 180px; overflow-y: auto; margin-bottom: 8px; }
+
+/* 弹窗 */
+.modal-mask { position: fixed; inset: 0; background: rgba(15, 23, 42, .35); z-index: 50; display: flex; align-items: center; justify-content: center; }
+.modal { background: #fff; border-radius: 10px; width: 460px; max-width: 94vw; max-height: 88vh; overflow-y: auto; padding: 18px 20px; }
+.modal h3 { margin: 0 0 12px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 12px; }
+.form-grid .full { grid-column: 1 / -1; }
+.form-field span { display: block; font-size: 12px; color: var(--muted); margin-bottom: 3px; }
+.form-field input, .form-field select, .form-field textarea {
+  width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; font-size: 13px; font-family: inherit; }
+.form-field textarea { min-height: 60px; resize: vertical; }
+.required-mark { color: #b42318; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+.form-tip { font-size: 12px; color: var(--muted); margin: 2px 0 0; }
+
+/* 路线同步与完工清单 */
+.sync-panel { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin: 4px 0 14px; }
+.sync-panel h3 { margin: 0 0 8px; font-size: 14px; }
+.sync-time { font-size: 12px; color: var(--muted); }
+.ledger-panel { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-top: 18px; }
+.ledger-panel h3 { margin: 0 0 4px; font-size: 14px; }
+.ledger-filters { display: flex; gap: 8px; margin: 8px 0; flex-wrap: wrap; }
+.ledger-filters select, .ledger-filters input { border: 1px solid var(--border); border-radius: 6px; padding: 5px 8px; font-size: 13px; }
+.unit-switch { display: flex; align-items: center; gap: 6px; }
+.unit-switch select { border-radius: 6px; border: 1px solid #334155; background: #1d2939; color: #e5e7eb; padding: 3px 6px; font-size: 12px; }
+.unit-chip { border-radius: 4px; padding: 0 6px; font-size: 11px; line-height: 18px; background: #eef2ff; color: #3730a3; }
+.conclusion-strong { color: #065f46; font-weight: 600; }
+.conclusion-pending { color: var(--muted); }
+

@@ -1,5 +1,7 @@
 import { MODULE_BY_KEY } from '@/data/modules'
 import { allRows, listRows, resetRows, saveRows } from '@/data/local-store'
+import { getPatrolState, patrolStats } from '@/domain/patrol/store'
+import { getHazardState, hazardStats } from '@/domain/hazard/store'
 import type { ActionResult, EntryRow, ModuleMeta, OverviewResult, PageResult } from '@/data/types'
 
 // 会写进数据的「往回走」动作：命中就把这条记录标成异常态，看板上能一眼看出来。
@@ -86,7 +88,28 @@ export function downloadEntries(key: string): void {
 
 export function loadOverview(): OverviewResult {
   const rows = allRows()
+  // 巡检与隐患已切到领域口径（迁移、归拢、对账都在领域层），概览同步取领域数据。
+  getPatrolState()
+  getHazardState()
+  const patrol = patrolStats()
+  const hazard = hazardStats()
   const modules = [...MODULE_BY_KEY.values()].map((meta) => {
+    if (meta.key === 'patrol') {
+      return {
+        name: meta.name,
+        created: getPatrolState().tasks.length,
+        pending: patrol.pending + patrol.running + patrol.reported,
+        abnormal: patrol.incomplete,
+      }
+    }
+    if (meta.key === 'hazard') {
+      return {
+        name: meta.name,
+        created: getHazardState().records.length,
+        pending: hazard.pending + hazard.inProgress + hazard.overdue,
+        abnormal: hazard.overdue,
+      }
+    }
     const entries = rows[meta.key] ?? []
     return {
       name: meta.name,
