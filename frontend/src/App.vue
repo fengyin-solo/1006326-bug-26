@@ -11,7 +11,16 @@
     <main class="app-main">
       <header class="app-head">
         <span class="head-desc">面向管廊主体台账、入廊管线登记、廊内环境监测、通风排水消防、结构沉降与渗漏处置、巡检检修与隐患整改、入廊作业审批和运维值班的一体化城市地下综合管廊运行维护管理工作台。</span>
-        <span class="head-user">当前值班：{{ store.operator }} · {{ store.shiftLabel }}</span>
+        <span class="head-user">
+          当前值班：{{ store.operator }} · {{ store.shiftLabel }}
+          ·
+          <label class="unit-switch">
+            所属单位
+            <select :value="store.unit" @change="store.setUnit(($event.target as HTMLSelectElement).value)">
+              <option v-for="unit in orgUnits" :key="unit" :value="unit">{{ unit }}</option>
+            </select>
+          </label>
+        </span>
       </header>
       <RouterView />
     </main>
@@ -19,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { useSessionStore } from '@/stores/session'
+import { ORG_UNITS as orgUnits, useSessionStore } from '@/stores/session'
 
 const store = useSessionStore()
 

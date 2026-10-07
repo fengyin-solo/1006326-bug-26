@@ -67,6 +67,8 @@
       <span>共 {{ total }} 条设施检修管理记录</span>
       <span v-if="errorMessage" class="error-text">{{ errorMessage }}</span>
     </footer>
+
+    <CompletionLedger bizType="检修完工" title="检修完工清单（与隐患整改入口同一份）" />
   </section>
 </template>
 
@@ -79,8 +81,12 @@ import {
   moduleMeta,
   runAction as applyAction,
 } from '@/api/local-service'
+import { recordCompletion } from '@/api/completion-service'
+import CompletionLedger from '@/components/CompletionLedger.vue'
+import { useSessionStore } from '@/stores/session'
 import type { EntryRow } from '@/data/types'
 
+const session = useSessionStore()
 const meta = moduleMeta('maintenance')
 const columns = ["检修编号", "检修对象", "检修类别", "检修班组", "计划工期", "完工日期", "更换部件", "检修状态"]
 const actions = ["提交开工", "确认完工", "申请延期"]
@@ -118,6 +124,20 @@ function runAction(action: string, row: EntryRow) {
   if (!result.ok) {
     errorMessage.value = result.message
     return
+  }
+  if (action === '确认完工') {
+    // 验收结果落到其他入口共用的完工清单，隐患与检修两边取同一份。
+    const outcome = recordCompletion({
+      bizType: '检修完工',
+      bizId: Number(row.id),
+      code: String(row['检修编号'] ?? ''),
+      source: '设施检修管理',
+      object: `${String(row['检修对象'] ?? '')} ${String(row['更换部件'] ?? '')}`.trim(),
+      route: '',
+      conclusion: '检修完工，试运行正常',
+      context: { unit: session.unit, acceptor: session.operator },
+    })
+    errorMessage.value = outcome.message
   }
   reload()
 }
